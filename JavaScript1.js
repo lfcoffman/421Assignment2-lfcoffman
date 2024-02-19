@@ -1,6 +1,6 @@
 ﻿var len;
 var results = '';
-let img1path = "file:///C:/MIS421/greg-rakozy-oMpAz-DN-9I-unsplash.jpg"
+let img1path = "file:///C:/MIS421/ASSIGNMENT2/greg-rakozy-oMpAz-DN-9I-unsplash.jpg"
 let img1 ="./greg-rakozy-oMpAz-DN-9I-unsplash.jpg"
 
 function handleOnload()
@@ -43,7 +43,15 @@ function getCurrentTime() {
 }
 function displayCurrentTime() {
     const currentTime = getCurrentTime();
-    alert('Current Time: ' + currentTime);
+    $('<div>').html('Current Time: ' + currentTime).dialog({
+        modal: true,
+        title: 'Current Time',
+        buttons: {
+            OK: function () {
+                $(this).dialog('close');
+            }
+        }
+    });
 }
 function apiSearch() {
   var params = {
@@ -60,14 +68,15 @@ function apiSearch() {
       },
       type: "GET",
     })
-    .done(function (data) {
+      .done(function (data) {
+      let results = '';
       len = data.webPages.value.length;
       for (i = 0; i < len; i++) {
         results += "<p><a href='" + data.webPages.value[i].url + "'>" + data.webPages.value[i].name + "</a>: " + data.webPages.value[i].snippet + "</p>";
       }
-
-      $('#searchResults').html(results);
-      $('#searchResults').dialog();
+        $('#searchResults').html(results);
+        $('#searchResults').dialog();
+        $("#query").val('');
     })
     .fail(function () {
       alert("error");
